@@ -4,8 +4,10 @@ const { createUserValidation, tokenValidation } = require('../middlewares');
 
 const router = express.Router();
 
-router.post('/', createUserValidation, userController.insertUser);
+router.get('/:id', tokenValidation, userController.getUserById);
 
 router.get('/', tokenValidation, userController.getAllUsers);
+
+router.post('/', createUserValidation, userController.insertUser);
 
 module.exports = router;
