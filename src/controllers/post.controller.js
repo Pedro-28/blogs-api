@@ -9,6 +9,16 @@ const insertBlogPost = async (req, res, next) => {
   }
 };
 
+const getAllBlogPosts = async (_req, res, next) => {
+  try {
+    const blogPosts = await postService.getAllBlogPosts();
+    res.status(200).json(blogPosts);
+  } catch (error) {
+    next(error);
+  }
+};
+
 module.exports = {
   insertBlogPost,
+  getAllBlogPosts,
 };
