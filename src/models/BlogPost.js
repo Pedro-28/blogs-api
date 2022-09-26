@@ -34,7 +34,7 @@ module.exports = (sequelize, DataTypes) => {
       updatedAt: 'updated',
     });
 
-  blogPostTable.associate = ({ User }) => {
+  blogPostTable.associate = ({ User, PostCategory }) => {
     blogPostTable.belongsTo(User, { foreignKey: 'userId', as: 'user' });
   };
 

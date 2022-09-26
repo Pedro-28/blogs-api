@@ -5,11 +5,13 @@ module.exports = (sequelize, DataTypes) => {
         primaryKey: true,
         type: DataTypes.INTEGER,
         allowNull: false,
+        onDelete: 'CASCADE',
       },
       categoryId: {
         primaryKey: true,
         type: DataTypes.INTEGER,
         allowNull: false,
+        onDelete: 'CASCADE',
       },
     },
     {

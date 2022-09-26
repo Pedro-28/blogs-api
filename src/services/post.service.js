@@ -8,9 +8,9 @@ const sequelize = new Sequelize(config[env]);
 const { BlogPost, PostCategory, Category, User } = require('../models');
 const generateError = require('../utils/generateError');
 
-const insertBlogPost = async ({ title, content, categoryIds }) => {
+const insertBlogPost = async ({ title, content, categoryIds }, payload) => {
   const result = await sequelize.transaction(async (t) => {
-    const post = await BlogPost.create({ title, content, userId: 1 }, { transaction: t });
+    const post = await BlogPost.create({ title, content, userId: payload.id }, { transaction: t });
 
     const categories = await Promise.all(categoryIds.map(async (id) => (
       Category.findByPk(id)
@@ -81,9 +81,27 @@ const updateBlogPost = async (id, payload, { title, content }) => {
   return updatedBlogPost;
 };
 
+const deleteBlogPost = async (id, payload) => {
+  const blogPost = await BlogPost.findByPk(id);
+  console.log('blogPost', blogPost);
+  console.log('payload', payload);
+  if (!blogPost) {
+    const errorMessage = generateError(404, 'Post does not exist');
+    throw errorMessage;
+  }
+
+  if (blogPost.userId !== payload.id) {
+    const errorMessage = generateError(401, 'Unauthorized user');
+    throw errorMessage;
+  }
+
+  await BlogPost.destroy({ where: { id } });
+};
+
 module.exports = {
   insertBlogPost,
   getAllBlogPosts,
   getBlogPostById,
   updateBlogPost,
+  deleteBlogPost,
 };

@@ -6,6 +6,8 @@ const router = express.Router();
 
 router.get('/:id', tokenValidation, postController.getBlogPostById);
 
+router.delete('/:id', tokenValidation, postController.deleteBlogPost);
+
 router.get('/', tokenValidation, postController.getAllBlogPosts);
 
 router.put('/:id', tokenValidation, updatePostValidation, postController.updateBlogPost);

@@ -2,7 +2,7 @@ const { postService } = require('../services');
 
 const insertBlogPost = async (req, res, next) => {
   try {
-    const blogPost = await postService.insertBlogPost(req.body);
+    const blogPost = await postService.insertBlogPost(req.body, req.payload);
     res.status(201).json(blogPost);
   } catch (error) {
     next(error);
@@ -38,9 +38,20 @@ const updateBlogPost = async (req, res, next) => {
   }
 };
 
+const deleteBlogPost = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    await postService.deleteBlogPost(id, req.payload);
+    res.sendStatus(204);
+  } catch (error) {
+    next(error);
+  }
+};
+
 module.exports = {
   insertBlogPost,
   getAllBlogPosts,
   getBlogPostById,
   updateBlogPost,
+  deleteBlogPost,
 };
