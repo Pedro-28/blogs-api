@@ -4,6 +4,7 @@ const errorMiddleware = require('./error.middleware');
 const tokenValidation = require('./tokenValidation.middleware');
 const categoryValidation = require('./categoryValidation.middleware');
 const postValidation = require('./postValidation.middleware');
+const updatePostValidation = require('./updatePostValidation.middleware');
 
 module.exports = {
   loginValidation,
@@ -12,4 +13,5 @@ module.exports = {
   tokenValidation,
   categoryValidation,
   postValidation,
+  updatePostValidation,
 };

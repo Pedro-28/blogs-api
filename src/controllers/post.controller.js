@@ -28,8 +28,19 @@ const getBlogPostById = async (req, res, next) => {
   }
 };
 
+const updateBlogPost = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const blogPost = await postService.updateBlogPost(id, req.payload, req.body);
+    res.status(200).json(blogPost);
+  } catch (error) {
+    next(error);
+  }
+};
+
 module.exports = {
   insertBlogPost,
   getAllBlogPosts,
   getBlogPostById,
+  updateBlogPost,
 };
