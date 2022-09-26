@@ -4,6 +4,8 @@ const { createUserValidation, tokenValidation } = require('../middlewares');
 
 const router = express.Router();
 
+router.delete('/me', tokenValidation, userController.deleteUser);
+
 router.get('/:id', tokenValidation, userController.getUserById);
 
 router.get('/', tokenValidation, userController.getAllUsers);
