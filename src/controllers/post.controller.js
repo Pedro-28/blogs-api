@@ -48,10 +48,21 @@ const deleteBlogPost = async (req, res, next) => {
   }
 };
 
+const searchBlogPost = async (req, res, next) => {
+  try {
+    const { q } = req.query;
+    const blogPosts = await postService.searchBlogPost(q);
+    res.status(200).json(blogPosts);
+  } catch (error) {
+    next(error);
+  }
+};
+
 module.exports = {
   insertBlogPost,
   getAllBlogPosts,
   getBlogPostById,
   updateBlogPost,
   deleteBlogPost,
+  searchBlogPost,
 };

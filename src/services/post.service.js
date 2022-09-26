@@ -1,6 +1,8 @@
 require('dotenv').config();
 const Sequelize = require('sequelize');
 
+const { Op } = Sequelize;
+
 const config = require('../config/config');
 
 const env = process.env.NODE_ENV || 'test';
@@ -83,8 +85,7 @@ const updateBlogPost = async (id, payload, { title, content }) => {
 
 const deleteBlogPost = async (id, payload) => {
   const blogPost = await BlogPost.findByPk(id);
-  console.log('blogPost', blogPost);
-  console.log('payload', payload);
+
   if (!blogPost) {
     const errorMessage = generateError(404, 'Post does not exist');
     throw errorMessage;
@@ -98,10 +99,28 @@ const deleteBlogPost = async (id, payload) => {
   await BlogPost.destroy({ where: { id } });
 };
 
+const searchBlogPost = async (search) => {
+  const blogPosts = await BlogPost.findAll({
+    where: {
+      [Op.or]: [
+        { title: { [Op.substring]: search } },
+        { content: { [Op.substring]: search } },
+      ],
+    },
+    include: [
+      { model: User, as: 'user', attributes: { exclude: ['password'] } },
+      { model: Category, as: 'categories', through: { attributes: [] } },
+    ],
+  });
+
+  return blogPosts;
+};
+
 module.exports = {
   insertBlogPost,
   getAllBlogPosts,
   getBlogPostById,
   updateBlogPost,
   deleteBlogPost,
+  searchBlogPost,
 };

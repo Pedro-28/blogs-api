@@ -4,6 +4,8 @@ const { tokenValidation, postValidation, updatePostValidation } = require('../mi
 
 const router = express.Router();
 
+router.get('/search', tokenValidation, postController.searchBlogPost);
+
 router.get('/:id', tokenValidation, postController.getBlogPostById);
 
 router.delete('/:id', tokenValidation, postController.deleteBlogPost);
